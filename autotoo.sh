@@ -53,7 +53,7 @@ emerge-webrsync
 
 eselect profile set 1
 
-emerge -1 app-portage/cpuid2cpuflags
+emerge -1q app-portage/cpuid2cpuflags
 echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
 
 echo -e "en_US.UTF-8 UTF-8\nC.UTF-8 UTF-8" >> /etc/locale.gen
@@ -66,38 +66,38 @@ LOCALEEOF
 
 echo "sys-kernel/installkernel grub dracut" > /etc/portage/package.use/installkernel
 
-emerge sys-kernel/gentoo-kernel-bin
+emerge -q sys-kernel/gentoo-kernel-bin
 
-emerge -1 sys-fs/genfstab
+emerge -1q sys-fs/genfstab
 genfstab -U / > /etc/fstab
 
 echo tux > /etc/hostname
 
-emerge net-misc/dhcpcd
+emerge -q net-misc/dhcpcd
 rc-update add dhcpcd default
 
 echo "Please set a root password!"
 passwd
 
-emerge app-admin/sysklogd
+emerge -q app-admin/sysklogd
 rc-update add sysklogd default
 
-emerge sys-process/cronie
+emerge -q sys-process/cronie
 rc-update add cronie default
 
-emerge sys-apps/mlocate
+emerge -q sys-apps/mlocate
 
 rc-update add sshd default
 
-emerge app-shells/bash-completion
+emerge -q app-shells/bash-completion
 
-emerge net-misc/chrony
+emerge -q net-misc/chrony
 rc-update add chronyd default
 
-emerge sys-fs/xfsprogs sys-fs/dosfstools
+emerge -q sys-fs/xfsprogs sys-fs/dosfstools
 
 echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
-emerge sys-boot/grub
+emerge -q sys-boot/grub
 grub-install --efi-directory=/efi
 grub-mkconfig -o /boot/grub/grub.cfg
 

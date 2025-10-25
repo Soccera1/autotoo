@@ -50,7 +50,6 @@ cat > /mnt/gentoo/tmp/chroot.sh << CHROOTEOF
 mount "$disk"1 /efi
 
 emerge-webrsync
-emerge --sync
 
 eselect profile set 1
 

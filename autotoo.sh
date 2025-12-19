@@ -72,8 +72,8 @@ die "chroot failed"
 
 cat > /mnt/gentoo/tmp/chroot.sh << CHROOTEOF
 die() {
-  local status=$1
-  local msg=$2
+  local status=$?
+  local msg=$1
 
   if [ "$status" -ne 0 ]; then
     echo "FATAL: $msg" >&2
@@ -83,78 +83,78 @@ die() {
 }
 
 mount "$disk"1 /efi
-die "$?" "EFI mount failed"
+die "EFI mount failed"
 
 emerge-webrsync
-die "$?" "portage sync failed"
+die "portage sync failed"
 
 eselect profile set 1
-die "$?" "profile could not be set"
+die "profile could not be set"
 
 emerge -1q app-portage/cpuid2cpuflags
 echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
-die "$?" "cpuflags could not be set"
+die "cpuflags could not be set"
 
 echo -e "en_US.UTF-8 UTF-8\nC.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
-die "$?" "locale could not be generated"
+die "locale could not be generated"
 
 cat > /etc/env.d/02locale << LOCALEEOF
 LANG="en_US.UTF-8"
 LC_COLLATE="C.UTF-8"
 LOCALEEOF
-die "$?" "locale could not be set"
+die "locale could not be set"
 
 echo "sys-kernel/installkernel grub dracut" > /etc/portage/package.use/installkernel
-die "$?" "installkernel flags could not be set"
+die "installkernel flags could not be set"
 
 emerge -q sys-kernel/gentoo-kernel-bin
-die "$?" "kernel could not be installed"
+die "kernel could not be installed"
 emerge -1q sys-fs/genfstab
-die "$?" "genfstab could not be installed"
+die "genfstab could not be installed"
 genfstab -U / > /etc/fstab
-die "$?" "fstab could not be created"
+die "fstab could not be created"
 
 echo tux > /etc/hostname
-die "$?" "hostname could not be set"
+die "hostname could not be set"
 
 emerge -q net-misc/dhcpcd
 rc-update add dhcpcd default
-die "$?" "dhcpcd could not be enabled"
+die "dhcpcd could not be enabled"
 
 echo "Please set a root password!"
 passwd
-die "$?" "root password was not set"
+die "root password was not set"
 
 emerge -q app-admin/sysklogd
 rc-update add sysklogd default
-die "$?" "sysklogd could not be enabled"
+die "sysklogd could not be enabled"
 
 emerge -q sys-process/cronie
 rc-update add cronie default
-die "$?" "cronie could not be enabled"
+die "cronie could not be enabled"
 
 emerge -q sys-apps/mlocate
-die "$?" "mlocate could not be installed"
+die "mlocate could not be installed"
 
 rc-update add sshd default
-die "$?" "sshd could not be enabled"
+die "sshd could not be enabled"
 
 emerge -q app-shells/bash-completion
-die "$?" "bash completion could not be enabled"
+die "bash completion could not be enabled"
 
 emerge -q net-misc/chrony
 rc-update add chronyd default
-die "$?" "chrony could not be enabled"
+die "chrony could not be enabled"
 
 emerge -q sys-fs/xfsprogs sys-fs/dosfstools
-die "$?" "filesystem tools could not be installed"
+die "filesystem tools could not be installed"
 
 echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 emerge -q sys-boot/grub
 grub-install --efi-directory=/efi
 grub-mkconfig -o /boot/grub/grub.cfg
-die "$?" "grub could not be installed"
+die "grub could not be installed"
 
 exit
 CHROOTEOF

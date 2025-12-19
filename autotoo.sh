@@ -70,7 +70,7 @@ die "chroot failed"
 mount --make-slave /mnt/gentoo/run
 die "chroot failed"
 
-cat > /mnt/gentoo/tmp/chroot.sh << CHROOTEOF
+cat > /mnt/gentoo/tmp/chroot.sh << 'CHROOTEOF'
 die() {
   local status=$?
   local msg=$1

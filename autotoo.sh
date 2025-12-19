@@ -28,7 +28,7 @@ DISKEOF
 
 mkfs.vfat -F 32 "$disk"1
 die "EFI partition failed"
-mkfs.xfs "$disk"2
+mkfs.xfs -f "$disk"2
 die "root partition failed"
 
 mkdir -p /mnt/gentoo

@@ -39,7 +39,7 @@ mount "$disk"1 /mnt/gentoo/efi
 die "mounting efi failed"
 
 cd /mnt/gentoo
-wget https://distfiles.gentoo.org/releases/amd64/autobuilds/20251019T170404Z/stage3-amd64-openrc-20251019T170404Z.tar.xz
+wget https://distfiles.gentoo.org/releases/amd64/autobuilds/20251214T164554Z/stage3-amd64-openrc-20251214T164554Z.tar.xz
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner -C /mnt/gentoo
 die "extracting stage3 failed"
 

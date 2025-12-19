@@ -71,6 +71,16 @@ mount --make-slave /mnt/gentoo/run
 die "chroot failed"
 
 cat > /mnt/gentoo/tmp/chroot.sh << CHROOTEOF
+die() {
+  local status=$?
+  local msg=$1
+
+  if [ "$status" -ne 0 ]; then
+    echo "FATAL: $msg" >&2
+    echo "Exit code: $status" >&2
+    exit "$status"
+  fi
+}
 
 mount "$disk"1 /efi
 die "EFI mount failed"

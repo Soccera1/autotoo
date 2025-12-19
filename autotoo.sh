@@ -82,6 +82,8 @@ die() {
   fi
 }
 
+echo "Enter disk again"
+read disk
 mount "$disk"1 /efi
 die "EFI mount failed"
 
